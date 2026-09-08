@@ -1,0 +1,104 @@
+# WSMP-Duels configuration
+#
+# Every value below has a safe default that the plugin falls back to if
+# the setting is missing or malformed - it's always safe to delete a
+# line you don't want to think about, or to add one that's missing here
+# after an update, without breaking anything.
+
+discord:
+  # Whether duel/Gauntlet results are announced to Discord via
+  # DiscordSRV (if installed). In-game chat/broadcast announcements
+  # happen regardless of this setting.
+  announce-results: true
+
+honor:
+  # Honor awarded to the winner of a duel.
+  win-amount: 20
+  # Honor awarded to the loser of a duel (participation).
+  loss-amount: 5
+
+duels:
+  # How long (in seconds) an unanswered duel challenge stays pending
+  # before it automatically expires.
+  challenge-timeout-seconds: 60
+  # How long (in seconds) into a duel before sudden death begins (both
+  # players start losing 1 HP/second until someone dies).
+  sudden-death-start-seconds: 600
+
+map-protection:
+  # Blocks setting a home (Essentials' /sethome, or any other plugin's
+  # command matching one of the prefixes below) or a team portal
+  # (WSMP-Teams' /team portal set) while standing in either the Duel or
+  # Gauntlet map's world. Both maps are always a whole, dedicated world
+  # in this plugin's design (never shared with anything else), so
+  # "inside the map" simply means "in that world at all" - there's no
+  # smaller region to define.
+  enabled: true
+  # Each entry is matched word-by-word against what the player actually
+  # typed, so a multi-word entry like "team portal set" only blocks
+  # that exact subcommand, not every "/team ..." command - add more
+  # here for any other plugin's home/warp/portal-style command.
+  blocked-commands:
+    - /sethome
+    - /team portal set
+  message: "&cYou can't do that here."
+
+gauntlet:
+  # The wave that ends a run in victory (the Wither + Warden final boss
+  # fight happens on this wave).
+  final-wave: 100
+  # The largest party size the Gauntlet supports. IMPORTANT: this is
+  # also how many player spawn points the setup wand will ask an admin
+  # to place on the Gauntlet map - changing this after the map has
+  # already been fully set up means placing (or clearing and
+  # re-placing) spawn points to match the new number.
+  max-party-size: 4
+  # A "break" (buff pick + merchant shopping, no monsters) happens after
+  # every Nth wave clears.
+  break-every-n-waves: 5
+  # How long (in seconds) a break lasts before it automatically ends,
+  # even if not everyone has readied up yet.
+  break-duration-seconds: 180
+  # How long (in seconds) after a wave clears (or a break ends) before
+  # the next wave's monsters actually spawn - doubles as the item-pick
+  # window on a non-break wave clear.
+  wave-transition-delay-seconds: 15
+  # A mini-boss (a single heavily-scaled mob of the toughest type
+  # unlocked so far) spawns instead of a normal wave every Nth wave.
+  mini-boss-every-n-waves: 10
+  # In a multiplayer run, how long (in seconds) a downed player has for
+  # a teammate to revive them before they're removed from the run.
+  downed-duration-seconds: 10
+  # What fraction of max health a revived player comes back with.
+  revive-health-fraction: 0.5
+  difficulty-scaling:
+    # More players in a party means more mobs spawn per wave, scaled by
+    # this factor per additional player beyond the first (e.g. 0.6 means
+    # each extra player adds another 60% to the base mob count for that
+    # wave, before rounding and the 30-mob cap).
+    mob-count-scale-per-extra-player: 0.6
+    # Extra health/damage added per additional party member beyond the
+    # first, on top of the wave-based scaling below - fixed at whatever
+    # the party size was when the run started.
+    health-scale-per-extra-player: 0.35
+    damage-scale-per-extra-player: 0.25
+    # How much extra health/damage a mob gains per wave number (e.g.
+    # 0.04 means wave 50 mobs have roughly 2x base health from wave
+    # scaling alone, before party-size scaling on top).
+    health-multiplier-per-wave: 0.04
+    damage-multiplier-per-wave: 0.03
+  loot:
+    # Chance (0.0-1.0) that killing a mob drops a gear/material item at
+    # all, before any LUCKY buff stacks are factored in.
+    drop-chance: 0.6
+    # Each LUCKY buff stack adds this much to the drop chance above, and
+    # grants one extra roll toward stackable materials (iron nuggets,
+    # rotten flesh, arrows).
+    lucky-bonus-per-stack: 0.1
+    # Chance (0.0-1.0) that killing a mob drops a food item, checked
+    # completely separately from the gear/material drop above.
+    food-drop-chance: 0.28
+    # From this wave onward, food drops have a chance to be a golden
+    # apple instead of the normal wave-appropriate food.
+    golden-apple-min-wave: 60
+    golden-apple-chance: 0.15
